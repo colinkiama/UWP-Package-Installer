@@ -8,6 +8,64 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="0">
+            <FontIcon FontFamily="Segoe MDL2 Assets"
+                      Glyph="&#xF158;"
+                      Margin="12,10" 
+                      FontSize="36"
+                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+            <TextBlock Name="packageNameTextBlock" 
+                       Text="packageName"
+                       Margin="0,20"
+                       FontSize="24"
+                       TextTrimming="CharacterEllipsis"
+                       FontWeight="SemiBold"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+        <TextBlock Name="permissionTextBlock" 
+                   Text="Do you want to install this package?"
+                   Margin="12,20"
+                   FontSize="20"
+                   TextWrapping="Wrap"/>
+            <ProgressBar Name="installProgressBar" 
+                         Height="5"
+                         Margin="12,0"/>
+            <TextBlock Name="installValueTextBlock" 
+                       Text="0%"
+                       Margin="12,10"/>
+            <Button Name="loadFileButton" 
+                    Content="Load File"
+                    Margin="12,10"
+                    Click="loadFileButton_Click"/>
+            <TextBlock Name="resultTextBlock"
+                       TextWrapping="Wrap" 
+                       Margin="12,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Margin="16">
+            <Button Style="{ThemeResource TextBlockButtonStyle}" 
+                    Content="Cancel"
+                    FontSize="20"
+                    Padding="0"
+                    
+                    Name="cancelButton"
+                    Click="cancelButton_Click"/>
+            <Button Style="{ThemeResource TextBlockButtonStyle}" 
+                    Content="Install"
+                    FontWeight="SemiBold"
+                    FontSize="20"
+                    Padding="0"
+                    Name="installButton"
+                    Click="installButton_Click"
+                    Margin="16,0,0,0"/>
+        </StackPanel>
     </Grid>
 </Page>

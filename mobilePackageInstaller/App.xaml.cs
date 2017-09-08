@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -96,5 +97,37 @@ namespace mobilePackageInstaller
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+
+        protected override void OnFileActivated(FileActivatedEventArgs e)
+        {
+            base.OnFileActivated(e);
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (rootFrame == null)
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
+
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+
+            StorageFile package = (StorageFile)e.Files[0];
+            rootFrame.Navigate(typeof(MainPage),package);
+
+            // Ensure the current window is active
+            Window.Current.Activate();
+        }
+
     }
+
 }
+
