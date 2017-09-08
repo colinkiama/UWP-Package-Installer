@@ -99,6 +99,10 @@ namespace mobilePackageInstaller
         }
 
 
+        /// <summary>
+        /// Whenever an appx or appxbundle file is opened by this app, this method is called
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnFileActivated(FileActivatedEventArgs e)
         {
             base.OnFileActivated(e);
@@ -119,7 +123,8 @@ namespace mobilePackageInstaller
                 Window.Current.Content = rootFrame;
             }
 
-
+            //Retrieves the appx/appxbundle and passes it into the MainPage.
+            //Where it will be dealt with in the OnNavigatedTo method;
             StorageFile package = (StorageFile)e.Files[0];
             rootFrame.Navigate(typeof(MainPage),package);
 

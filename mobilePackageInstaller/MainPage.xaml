@@ -43,6 +43,10 @@
                     Content="Load File"
                     Margin="12,10"
                     Click="loadFileButton_Click"/>
+            <Button Name="loadDependenciesButton"
+                    Content="Load Dependencies"
+                    Margin="12,10"
+                    Click="loadDependenciesButton_Click" />
             <TextBlock Name="resultTextBlock"
                        TextWrapping="Wrap" 
                        Margin="12,0"/>
