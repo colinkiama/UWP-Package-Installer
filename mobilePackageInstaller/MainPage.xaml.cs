@@ -5,8 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.Management.Deployment;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -27,7 +29,14 @@ namespace mobilePackageInstaller
     public sealed partial class MainPage : Page
     {
         StorageFile packageInContext;
-        List<Uri> dependencies;
+
+        
+        List<Uri> dependencies = new List<Uri>();
+        //ValueSet cannot contain values of the URI class which is why there is another list below.
+        //This is required to update the progress in a notification using a background task.
+        List<string> dependenciesAsString = new List<string>();
+
+        bool pkgRegistered = false;
         public MainPage()
         {
             this.InitializeComponent();
@@ -89,35 +98,205 @@ namespace mobilePackageInstaller
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void installButton_Click(object sender, RoutedEventArgs e)
+        private  void installButton_Click(object sender, RoutedEventArgs e)
         {
             loadFileButton.Visibility = Visibility.Collapsed;
+            loadDependenciesButton.Visibility = Visibility.Collapsed;
             installButton.Visibility = Visibility.Collapsed;
             cancelButton.Visibility = Visibility.Collapsed;
-            PackageManager pkgManager = new PackageManager();
 
-            Progress<DeploymentProgress> progressCallback = new Progress<DeploymentProgress>(installProgress);
-            DeploymentResult result;
-            if (dependencies != null && dependencies.Count > 0)
+            //Modern Test:
+            //showProgressInNotification();
+
+            //Legacy Test:
+            //showProgressInApp();
+
+            //Normal Code:
+            //If the device is on the creators update or later, install progress is shown in the action center
+            //Otherwise, all progress is shown in the App's UI.
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4))
             {
-                result = await pkgManager.AddPackageAsync(new Uri(packageInContext.Path), dependencies, DeploymentOptions.RequiredContentGroupOnly).AsTask(progressCallback);
+                showProgressInNotification();
             }
             else
             {
-                result = await pkgManager.AddPackageAsync(new Uri(packageInContext.Path), null, DeploymentOptions.RequiredContentGroupOnly).AsTask(progressCallback);
+                showProgressInApp();
+            }
+
+
+
+
+        }
+
+        
+        private async void showProgressInApp()
+        {
+            installProgressBar.Visibility = Visibility.Visible;
+            installValueTextBlock.Visibility = Visibility.Visible;
+            PackageManager pkgManager = new PackageManager();
+            Progress<DeploymentProgress> progressCallback = new Progress<DeploymentProgress>(installProgress);
+            string resultText = "Nothing";
+            
+            notification.showInstallationHasStarted(packageInContext.Name);
+            if (dependencies != null && dependencies.Count > 0)
+            {
+                try
+                {
+                    var result = await pkgManager.AddPackageAsync(new Uri(packageInContext.Path), dependencies, DeploymentOptions.RequiredContentGroupOnly).AsTask(progressCallback);
+                    checkIfPackageRegistered(result, resultText: resultText);
+                   
+                }
+                catch(Exception e)
+                {
+                    resultText = e.Message;
+                }
+
+            }
+            else
+            {
+                try
+                {
+                    var result = await pkgManager.AddPackageAsync(new Uri(packageInContext.Path), null, DeploymentOptions.RequiredContentGroupOnly).AsTask(progressCallback);
+                    checkIfPackageRegistered(result, resultText);
+                }
+
+                catch(Exception e)
+                {
+                    resultText = e.Message;
+                }
+                
             }
 
             cancelButton.Content = "Exit";
             cancelButton.Visibility = Visibility.Visible;
-            if (!result.IsRegistered)
+            if (pkgRegistered == true)
             {
-                resultTextBlock.Text = result.ErrorText;
+                permissionTextBlock.Text = "Completed";
+                notification.ShowInstallationHasCompleted(packageInContext.Name);
 
+                
+
+            }
+            else
+            {
+                resultTextBlock.Text = resultText;
+                notification.sendError(resultText);
+            }
+        }
+
+        private void checkIfPackageRegistered(DeploymentResult result, string resultText)
+        {
+            if (result.IsRegistered)
+            {
+                pkgRegistered = true;   
+            }
+            else
+            {
+                resultText = result.ErrorText;
             }
         }
 
         /// <summary>
-        /// Updates the progress bar and status of the installation
+        /// Passes package file path and of file paths dependencies into the backgroundTask
+        /// using a ValueSet.
+        /// </summary>
+        private async void showProgressInNotification()
+        {
+            permissionTextBlock.Text = "Check Your Notifications/Action Center 😉";
+            var thingsToPassOver = new ValueSet();
+            thingsToPassOver.Add("packagePath", packageInContext.Path);
+            if (dependenciesAsString != null & dependenciesAsString.Count > 0)
+            {
+                int count = dependenciesAsString.Count();
+                for (int i = 0; i < count; i++)
+                {
+                    thingsToPassOver.Add($"dependencies{i}", dependenciesAsString[i]);
+                }
+                thingsToPassOver.Add("installType", 1);
+            }
+            else
+            {
+                thingsToPassOver.Add("installType", 0);
+            }
+
+            PackageManager pkgManager = new PackageManager();
+            ApplicationTrigger appTrigger = new ApplicationTrigger();
+            var backgroundTask = RegisterBackgroundTask("installTask.install", "installTask", appTrigger);
+            //backgroundTask.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
+            //backgroundTask.Progress += new BackgroundTaskProgressEventHandler(OnProgress);
+            var result = await appTrigger.RequestAsync(thingsToPassOver);
+           
+            foreach (var task in BackgroundTaskRegistration.AllTasks)
+            {
+                if (task.Value.Name == "installTask")
+                {
+                    AttachCompletedHandler(task.Value);
+
+                }
+            }
+        }
+
+        private void AttachCompletedHandler(IBackgroundTaskRegistration task)
+        {
+            task.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
+        }
+
+
+        private async void OnCompleted(IBackgroundTaskRegistration task, BackgroundTaskCompletedEventArgs args)
+        {
+            //UpdateUI;
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                cancelButton.Content = "Exit";
+                cancelButton.Visibility = Visibility.Visible;
+                permissionTextBlock.Text = "Insall Task Complete, check notifications for results";
+                
+
+            });
+        }
+
+
+       
+        public static BackgroundTaskRegistration RegisterBackgroundTask(string taskEntryPoint,
+                                                                            string taskName,
+                                                                            IBackgroundTrigger trigger)
+            {
+                //
+                // Check for existing registrations of this background task.
+                //
+
+                foreach (var cur in BackgroundTaskRegistration.AllTasks)
+                {
+
+                    if (cur.Value.Name == taskName)
+                    {
+                        //
+                        // The task is already registered.
+                        //
+
+                        return (BackgroundTaskRegistration)(cur.Value);
+                    }
+                }
+
+                //
+                // Register the background task.
+                //
+
+                var builder = new BackgroundTaskBuilder();
+
+                builder.Name = taskName;
+                builder.TaskEntryPoint = taskEntryPoint;
+                builder.SetTrigger(trigger);
+
+                BackgroundTaskRegistration task = builder.Register();
+
+                return task;
+            }
+
+        
+
+        /// <summary>
+        /// Updates the progress bar and status of the installation in the app's UI.
         /// </summary>
         /// <param name="installProgress"></param>
         private void installProgress(DeploymentProgress installProgress)
@@ -128,10 +307,6 @@ namespace mobilePackageInstaller
             installProgressBar.Value = installPercentage;
             string percentageAsString = String.Format($"{installPercentage}%");
             installValueTextBlock.Text = percentageAsString;
-            if (installProgressBar.Value >= 100)
-            {
-                permissionTextBlock.Text = "Completed";
-            }
             
         }
 
@@ -153,8 +328,6 @@ namespace mobilePackageInstaller
                 //UI changes to allow the user to install the package
                 packageInContext = file;
                 permissionTextBlock.Text = "Do you want to install this package?";
-                installProgressBar.Visibility = Visibility.Visible;
-                installValueTextBlock.Visibility = Visibility.Visible;
                 installButton.Visibility = Visibility.Visible;
                 cancelButton.Content = "Cancel";
                 packageNameTextBlock.Text = packageInContext.DisplayName;
@@ -182,6 +355,12 @@ namespace mobilePackageInstaller
                 foreach (var dependency in files)
                 {
                     dependencies.Add(new Uri(dependency.Path));
+                }
+
+                
+                foreach (var dependency in files)
+                {
+                    dependenciesAsString.Add(dependency.Path);
                 }
 
                 loadDependenciesButton.Content = "Load different dependencies";
