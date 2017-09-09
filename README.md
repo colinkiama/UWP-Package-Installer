@@ -1,6 +1,8 @@
 # UWP-Package-Installer
 An UWP installer for appx/appxbundle packages (Runs on all Windows 10 Devices but was originally made for Mobile devices)
 
+You can download the installer here: https://github.com/colinkiama/UWP-Package-Installer/releases
+
 The App installs the packages with or without their dependencies and displays errors in case something goes wrong.
 
 Devices on Windows 10 Creators Update and Later get their install progress in the action center. Devices on older version of have their install progress inside the installer's app UI and a few notifications in the app.
