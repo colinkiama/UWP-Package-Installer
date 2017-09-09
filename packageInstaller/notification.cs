@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Windows.UI.Notifications;
 using Microsoft.Toolkit.Uwp.Notifications;
 
-namespace mobilePackageInstaller
+namespace packageInstaller
 {
     public class notification
     {
-        //Test
+        
         //Note: You can update or replace a toast notification by updating/sending another toast using
         //The same tag and group as the original toast.
 

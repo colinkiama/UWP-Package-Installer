@@ -1,7 +1,7 @@
 ﻿<Application
-    x:Class="mobilePackageInstaller.App"
+    x:Class="packageInstaller.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:mobilePackageInstaller">
+    xmlns:local="using:packageInstaller">
 
 </Application>

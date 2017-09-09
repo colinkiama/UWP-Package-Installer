@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="packageInstaller.App">
-      <uap:VisualElements DisplayName="Package Installer" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="mobilePackageInstaller" BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="Package Installer" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="packageInstaller" BackgroundColor="transparent">
         <uap:DefaultTile Square71x71Logo="Assets\SmallTile.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
