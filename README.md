@@ -1,4 +1,4 @@
-# Windows-10-Mobile-Package-Installer
+# UWP-Package-Installer
 An UWP installer for appx/appxbundle packages (Runs on all Windows 10 Devices but was originally made for Mobile devices)
 
 The App installs the packages with or without their dependencies and displays errors in case something goes wrong.
