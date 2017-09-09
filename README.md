@@ -1,5 +1,5 @@
 # UWP-Package-Installer
-An UWP installer for appx/appxbundle packages (Runs on all Windows 10 Devices but was originally made for Mobile devices)
+An UWP installer for appx/appxbundle packages
 
 You can download the installer here: https://github.com/colinkiama/UWP-Package-Installer/releases
 
