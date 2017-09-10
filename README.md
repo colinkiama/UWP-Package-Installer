@@ -5,7 +5,7 @@ You can download the installer here: https://github.com/colinkiama/UWP-Package-I
 
 The App installs the packages with or without their dependencies and displays errors in case something goes wrong.
 
-Devices on Windows 10 Creators Update and Later get their install progress in the action center. Devices on older version of have their install progress inside the installer's app UI and a few notifications in the app.
+Devices on Windows 10 Creators Update and Later get their install progress in the action center. Devices on older versions of Windows 10 have their install progress inside the installer's app UI and a few notifications in the app.
 
 This is fully capable of replacing the buillt in app installer on Windows 10 and Windows Device Portal (for sideloading apps onto your device).
 
