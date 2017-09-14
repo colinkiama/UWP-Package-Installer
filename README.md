@@ -2,6 +2,8 @@
 An UWP installer for appx/appxbundle packages
 
 You can download the installer here: https://github.com/colinkiama/UWP-Package-Installer/releases
+
+Need help or have questions? Contact me at colinkiama@gmail.com
  
 ![alt text](https://i.imgur.com/ZkL3YGz.gif)
 
