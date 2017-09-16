@@ -143,7 +143,7 @@ namespace packageInstaller
                 try
                 {
                     var result = await pkgManager.AddPackageAsync(new Uri(packageInContext.Path), dependencies, DeploymentOptions.RequiredContentGroupOnly).AsTask(progressCallback);
-                    checkIfPackageRegistered(result, resultText: resultText);
+                    checkIfPackageRegistered(result, resultText);
                    
                 }
                 catch(Exception e)
