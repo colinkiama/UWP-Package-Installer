@@ -29,7 +29,7 @@
                        FontWeight="SemiBold"/>
         </StackPanel>
         <StackPanel Grid.Row="1">
-        <TextBlock Name="permissionTextBlock" 
+            <TextBlock Name="permissionTextBlock" 
                    Text="Do you want to install this package?"
                    Margin="12,20"
                    FontSize="20"

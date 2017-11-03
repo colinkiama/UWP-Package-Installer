@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -29,8 +28,6 @@ namespace UWPPackageInstaller
     public sealed partial class MainPage : Page
     {
         StorageFile packageInContext;
-
-        
         List<Uri> dependencies = new List<Uri>();
         //ValueSet cannot contain values of the URI class which is why there is another list below.
         //This is required to update the progress in a notification using a background task.
@@ -40,6 +37,7 @@ namespace UWPPackageInstaller
         public MainPage()
         {
             this.InitializeComponent();
+
         }
 
         /// <summary>
@@ -50,7 +48,7 @@ namespace UWPPackageInstaller
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            
+
             base.OnNavigatedTo(e);
             try
             {
@@ -98,7 +96,7 @@ namespace UWPPackageInstaller
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private  void installButton_Click(object sender, RoutedEventArgs e)
+        private void installButton_Click(object sender, RoutedEventArgs e)
         {
             loadFileButton.Visibility = Visibility.Collapsed;
             loadDependenciesButton.Visibility = Visibility.Collapsed;
@@ -128,7 +126,7 @@ namespace UWPPackageInstaller
 
         }
 
-        
+
         private async void showProgressInApp()
         {
             installProgressBar.Visibility = Visibility.Visible;
@@ -136,7 +134,7 @@ namespace UWPPackageInstaller
             PackageManager pkgManager = new PackageManager();
             Progress<DeploymentProgress> progressCallback = new Progress<DeploymentProgress>(installProgress);
             string resultText = "Nothing";
-            
+
             notification.showInstallationHasStarted(packageInContext.Name);
             if (dependencies != null && dependencies.Count > 0)
             {
@@ -144,9 +142,9 @@ namespace UWPPackageInstaller
                 {
                     var result = await pkgManager.AddPackageAsync(new Uri(packageInContext.Path), dependencies, DeploymentOptions.ForceTargetApplicationShutdown).AsTask(progressCallback);
                     checkIfPackageRegistered(result, resultText);
-                   
+
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     resultText = e.Message;
                 }
@@ -154,17 +152,18 @@ namespace UWPPackageInstaller
             }
             else
             {
-                try { 
-                
+                try
+                {
+
                     var result = await pkgManager.AddPackageAsync(new Uri(packageInContext.Path), null, DeploymentOptions.ForceTargetApplicationShutdown).AsTask(progressCallback);
                     checkIfPackageRegistered(result, resultText);
                 }
 
-                catch(Exception e)
+                catch (Exception e)
                 {
                     resultText = e.Message;
                 }
-                
+
             }
 
             cancelButton.Content = "Exit";
@@ -174,7 +173,7 @@ namespace UWPPackageInstaller
                 permissionTextBlock.Text = "Completed";
                 notification.ShowInstallationHasCompleted(packageInContext.Name);
 
-                
+
 
             }
             else
@@ -188,7 +187,7 @@ namespace UWPPackageInstaller
         {
             if (result.IsRegistered)
             {
-                pkgRegistered = true;   
+                pkgRegistered = true;
             }
             else
             {
@@ -225,7 +224,7 @@ namespace UWPPackageInstaller
             //backgroundTask.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
             //backgroundTask.Progress += new BackgroundTaskProgressEventHandler(OnProgress);
             var result = await appTrigger.RequestAsync(thingsToPassOver);
-           
+
             foreach (var task in BackgroundTaskRegistration.AllTasks)
             {
                 if (task.Value.Name == "installTask")
@@ -250,50 +249,50 @@ namespace UWPPackageInstaller
                 cancelButton.Content = "Exit";
                 cancelButton.Visibility = Visibility.Visible;
                 permissionTextBlock.Text = "Insall Task Complete, check notifications for results";
-                
+
 
             });
         }
 
 
-       
+
         public static BackgroundTaskRegistration RegisterBackgroundTask(string taskEntryPoint,
                                                                             string taskName,
                                                                             IBackgroundTrigger trigger)
+        {
+            //
+            // Check for existing registrations of this background task.
+            //
+
+            foreach (var cur in BackgroundTaskRegistration.AllTasks)
             {
-                //
-                // Check for existing registrations of this background task.
-                //
 
-                foreach (var cur in BackgroundTaskRegistration.AllTasks)
+                if (cur.Value.Name == taskName)
                 {
+                    //
+                    // The task is already registered.
+                    //
 
-                    if (cur.Value.Name == taskName)
-                    {
-                        //
-                        // The task is already registered.
-                        //
-
-                        return (BackgroundTaskRegistration)(cur.Value);
-                    }
+                    return (BackgroundTaskRegistration)(cur.Value);
                 }
-
-                //
-                // Register the background task.
-                //
-
-                var builder = new BackgroundTaskBuilder();
-
-                builder.Name = taskName;
-                builder.TaskEntryPoint = taskEntryPoint;
-                builder.SetTrigger(trigger);
-
-                BackgroundTaskRegistration task = builder.Register();
-
-                return task;
             }
 
-        
+            //
+            // Register the background task.
+            //
+
+            var builder = new BackgroundTaskBuilder();
+
+            builder.Name = taskName;
+            builder.TaskEntryPoint = taskEntryPoint;
+            builder.SetTrigger(trigger);
+
+            BackgroundTaskRegistration task = builder.Register();
+
+            return task;
+        }
+
+
 
         /// <summary>
         /// Updates the progress bar and status of the installation in the app's UI.
@@ -301,13 +300,13 @@ namespace UWPPackageInstaller
         /// <param name="installProgress"></param>
         private void installProgress(DeploymentProgress installProgress)
         {
-            
+
             double installPercentage = installProgress.percentage;
             permissionTextBlock.Text = "Installing...";
             installProgressBar.Value = installPercentage;
             string percentageAsString = String.Format($"{installPercentage}%");
             installValueTextBlock.Text = percentageAsString;
-            
+
         }
 
         /// <summary>
@@ -351,13 +350,13 @@ namespace UWPPackageInstaller
             var files = await picker.PickMultipleFilesAsync();
             if (files != null)
             {
-                
+
                 foreach (var dependency in files)
                 {
                     dependencies.Add(new Uri(dependency.Path));
                 }
 
-                
+
                 foreach (var dependency in files)
                 {
                     dependenciesAsString.Add(dependency.Path);

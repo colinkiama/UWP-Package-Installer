@@ -10,7 +10,7 @@ namespace UWPPackageInstaller
 {
     public class notification
     {
-        
+
         //Note: You can update or replace a toast notification by updating/sending another toast using
         //The same tag and group as the original toast.
 
@@ -39,7 +39,7 @@ namespace UWPPackageInstaller
                         Text=$"{packageName} is installing..."
                     }
 
-                  
+
                 }
                     }
                 }
@@ -54,7 +54,7 @@ namespace UWPPackageInstaller
 
             // Define NotificationData property and add it to the toast notification to bind the initial data;
             // Data.Values are assigned with string values;
-            
+
 
             // Show the toast notification to the user;
             ToastNotificationManager.CreateToastNotifier().Show(toast);
@@ -134,7 +134,7 @@ namespace UWPPackageInstaller
                         Text=$"Installation of {packageName} Is Complete!"
                     }
 
-                   
+
 
 
                 }
@@ -157,8 +157,5 @@ namespace UWPPackageInstaller
             ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
     }
+
 }
-
-
-
-
