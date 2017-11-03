@@ -42,7 +42,7 @@ namespace installTask
 
                 try
                 {
-                    var result = await pkgManager.AddPackageAsync(new Uri(packagePath), dependencies, DeploymentOptions.RequiredContentGroupOnly).AsTask(progressCallback);
+                    var result = await pkgManager.AddPackageAsync(new Uri(packagePath), dependencies, DeploymentOptions.ForceTargetApplicationShutdown).AsTask(progressCallback);
                     checkIfPackageRegistered(result, resultText);
                 }
 
@@ -56,7 +56,7 @@ namespace installTask
             {
                 try
                 {
-                    var result = await pkgManager.AddPackageAsync(new Uri(packagePath), null, DeploymentOptions.RequiredContentGroupOnly).AsTask(progressCallback);
+                    var result = await pkgManager.AddPackageAsync(new Uri(packagePath), null, DeploymentOptions.ForceTargetApplicationShutdown).AsTask(progressCallback);
                     checkIfPackageRegistered(result, resultText);
                 }
 

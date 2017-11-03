@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap mp rescap">
-  <Identity Name="64942ColinKiama.PackageInstaller" Publisher="CN=D2DBA6D7-296F-484A-BABE-2B76C9C2AF78" Version="1.7.2.0" />
+  <Identity Name="64942ColinKiama.PackageInstaller" Publisher="CN=colinkiama" Version="1.7.5.0" />
   <mp:PhoneIdentity PhoneProductId="06ace6a5-5feb-4765-bb93-cec048e236aa" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Package Installer</DisplayName>
@@ -24,10 +24,15 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
+        <Extension Category="windows.backgroundTasks" EntryPoint="installTask.install">
+          <BackgroundTasks>
+            <Task Type="pushNotification" />
+          </BackgroundTasks>
+        </Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="appxbundle">
+          <uap:FileTypeAssociation Name="xap">
             <uap:SupportedFileTypes>
-              <uap:FileType>.appxbundle</uap:FileType>
+              <uap:FileType>.xap</uap:FileType>
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>
@@ -39,17 +44,12 @@
           </uap:FileTypeAssociation>
         </uap:Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="xap">
+          <uap:FileTypeAssociation Name="appxbundle">
             <uap:SupportedFileTypes>
-              <uap:FileType>.xap</uap:FileType>
+              <uap:FileType>.appxbundle</uap:FileType>
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="installTask.install">
-          <BackgroundTasks>
-            <Task Type="pushNotification" />
-          </BackgroundTasks>
-        </Extension>
       </Extensions>
     </Application>
   </Applications>

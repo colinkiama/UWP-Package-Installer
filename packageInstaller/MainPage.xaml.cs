@@ -142,7 +142,7 @@ namespace packageInstaller
             {
                 try
                 {
-                    var result = await pkgManager.AddPackageAsync(new Uri(packageInContext.Path), dependencies, DeploymentOptions.RequiredContentGroupOnly).AsTask(progressCallback);
+                    var result = await pkgManager.AddPackageAsync(new Uri(packageInContext.Path), dependencies, DeploymentOptions.ForceTargetApplicationShutdown).AsTask(progressCallback);
                     checkIfPackageRegistered(result, resultText);
                    
                 }
@@ -154,9 +154,9 @@ namespace packageInstaller
             }
             else
             {
-                try
-                {
-                    var result = await pkgManager.AddPackageAsync(new Uri(packageInContext.Path), null, DeploymentOptions.RequiredContentGroupOnly).AsTask(progressCallback);
+                try { 
+                
+                    var result = await pkgManager.AddPackageAsync(new Uri(packageInContext.Path), null, DeploymentOptions.ForceTargetApplicationShutdown).AsTask(progressCallback);
                     checkIfPackageRegistered(result, resultText);
                 }
 
