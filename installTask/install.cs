@@ -13,14 +13,15 @@ namespace installTask
         BackgroundTaskDeferral _deferral;
         string resultText = "Nothing";
         bool pkgRegistered = false;
-
+        private static IBackgroundTaskInstance boom;
+        static double installPercentage = 0;
         /// <summary>
         /// Pretty much identical to showProgressInApp() in MainPage.xaml.cs
         /// </summary>
         /// <param name="taskInstance"></param>
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
-
+            boom = taskInstance;
             _deferral = taskInstance.GetDeferral();
             ApplicationTriggerDetails details = (ApplicationTriggerDetails)taskInstance.TriggerDetails;
             string packagePath = "";
@@ -83,9 +84,10 @@ namespace installTask
         }
 
 
-        private void installProgress(DeploymentProgress installProgress)
+        private static void installProgress(DeploymentProgress installProgress)
         {
-            double installPercentage = installProgress.percentage;
+             installPercentage = installProgress.percentage;
+            boom.Progress = (uint)installPercentage;
             notification.UpdateProgress(installPercentage);
         }
 

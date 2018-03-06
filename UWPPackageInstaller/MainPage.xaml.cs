@@ -222,7 +222,7 @@ namespace UWPPackageInstaller
             ApplicationTrigger appTrigger = new ApplicationTrigger();
             var backgroundTask = RegisterBackgroundTask("installTask.install", "installTask", appTrigger);
             //backgroundTask.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
-            //backgroundTask.Progress += new BackgroundTaskProgressEventHandler(OnProgress);
+            backgroundTask.Progress += new BackgroundTaskProgressEventHandler(OnProgress);
             var result = await appTrigger.RequestAsync(thingsToPassOver);
 
             foreach (var task in BackgroundTaskRegistration.AllTasks)
@@ -233,6 +233,18 @@ namespace UWPPackageInstaller
 
                 }
             }
+            installProgressBar.Visibility = Visibility.Visible;
+            installValueTextBlock.Visibility = Visibility.Visible;
+        }
+
+        private async void OnProgress(BackgroundTaskRegistration sender, BackgroundTaskProgressEventArgs args)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+
+            installProgressBar.Value = args.Progress;
+            installValueTextBlock.Text = $"{args.Progress}%";
+            });
         }
 
         private void AttachCompletedHandler(IBackgroundTaskRegistration task)
