@@ -16,6 +16,5 @@ This is fully capable of replacing the buillt in app installer on Windows 10 and
 
 Feel free to use this code for your own projects too. WARNING: The methods used in the Package Manager class in this app do require you to manually add the following restricted capablities into your package.appxmanifest file: "packageManagement". You can learn more about restricted capablities in UWP apps here (You might need to scroll down a bit): https://docs.microsoft.com/en-us/windows/uwp/packaging/app-capability-declarations
 
-If you you need help, or want to talk to me about something, contact me at colinkiama@hotmail.co.uk
 
 Enjoy😁!
