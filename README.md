@@ -18,3 +18,7 @@ Feel free to use this code for your own projects too. WARNING: The methods used 
 
 
 Enjoy😁!
+
+## Roadmap:
+- [ ] Install Certificates before packages
+- [ ] Try installing the package without dependencies when app fails to install the first time
