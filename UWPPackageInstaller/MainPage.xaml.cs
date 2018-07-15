@@ -110,7 +110,7 @@ namespace UWPPackageInstaller
             //showProgressInApp();
 
             //Normal Code:
-            //If the device is on the creators update or later, install progress is shown in the action center
+            //If the device is on the creators update or later, install progress is shown in the action center and App UI
             //Otherwise, all progress is shown in the App's UI.
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4))
             {
