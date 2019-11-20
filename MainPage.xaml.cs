@@ -104,11 +104,6 @@ namespace UWPPackageInstaller
 
                                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                                 {
-                                    // Your UI update code goes here!
-
-                                    //Debug.WriteLine("TEXT: " + text);
-
-                                    //tt5.Text = text;
                                     text = RemoveAllNamespaces(text);
                                     data = APx.XmlConverter.ToClass<APx.Package>(text);
                                     packageNameTextBlock.Text = data.Properties.DisplayName;
@@ -122,12 +117,6 @@ namespace UWPPackageInstaller
                         {
                             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                             {
-                                /*                            _ = Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                                () =>
-                                {
-                                    Debug.WriteLine(packageNameTextBlock.Text);
-                                }
-                                );*/
                                 if (text != null && data != null)
                                 {
                                     string srnam = null;
@@ -145,8 +134,6 @@ namespace UWPPackageInstaller
 
 
                                         BitmapImage bitmap = new BitmapImage();
-
-                                        //Debug.WriteLine("Done 2");
 
                                         using (var memStream = new MemoryStream())
                                         {
@@ -196,11 +183,6 @@ namespace UWPPackageInstaller
 
                                             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                                             {
-                                                // Your UI update code goes here!
-
-                                                //Debug.WriteLine("TEXT: " + text);
-
-                                                //tt5.Text = text;
                                                 text = RemoveAllNamespaces(text);
                                                 data = APx.XmlConverter.ToClass<APx.Package>(text);
                                                 packageNameTextBlock.Text = data.Properties.DisplayName;
@@ -214,12 +196,6 @@ namespace UWPPackageInstaller
                                     {
                                         await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                                         {
-                                            /*                            _ = Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                                            () =>
-                                            {
-                                                Debug.WriteLine(packageNameTextBlock.Text);
-                                            }
-                                            );*/
                                             if (text != null && data != null)
                                             {
                                                 string srnam = null;
@@ -237,8 +213,6 @@ namespace UWPPackageInstaller
 
 
                                                     BitmapImage bitmap = new BitmapImage();
-
-                                                    //Debug.WriteLine("Done 2");
 
                                                     using (var memStream = new MemoryStream())
                                                     {
@@ -274,8 +248,6 @@ namespace UWPPackageInstaller
             var vp = new Version(data.Identity.Version);
 
             PackageManager PkgManager = new PackageManager();
-
-            //var inpkg = PkgManager.FindPackage(data.Identity.Name);
 
             var ListOfInstalledPackages = PkgManager.FindPackagesForUserWithPackageTypes("", PackageTypes.Main);
             List<Package> AllPackages = new List<Package>();
