@@ -1,0 +1,77 @@
+﻿<Page
+    x:Class="UWPPackageInstaller.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPPackageInstaller"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="0">
+            <Image x:Name="pkgi" Height="47" Width="47" Margin="12,10" Source="/Assets/256x256.png" Stretch="UniformToFill"/>
+            <FontIcon FontFamily="Segoe MDL2 Assets"
+                      Glyph="&#xF158;" 
+                      FontSize="36"
+                      Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Visibility="Collapsed"/>
+            <TextBlock x:Name="packageNameTextBlock" 
+                       Text="packageName"
+                       FontSize="12"
+                       TextWrapping="Wrap"
+                       TextTrimming="CharacterEllipsis"
+                       FontWeight="SemiBold" Height="19"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <TextBlock Name="permissionTextBlock" 
+                   Text="Do you want to install this package?"
+                   Margin="12,20"
+                   FontSize="20"
+                   TextWrapping="Wrap"/>
+            <ProgressBar Name="installProgressBar" 
+                         Height="5"
+                         Margin="12,0"
+                         Visibility="Collapsed"/>
+            <TextBlock Name="installValueTextBlock" 
+                       Text="0%"
+                       Margin="12,10"
+                       Visibility="Collapsed"/>
+            <Button Name="loadFileButton" 
+                    Content="Load File"
+                    Margin="12,10"
+                    Click="loadFileButton_Click"/>
+            <Button Name="loadDependenciesButton"
+                    Content="Load Dependencies"
+                    Margin="12,10"
+                    Click="loadDependenciesButton_Click" />
+            <TextBlock Name="resultTextBlock"
+                       TextWrapping="Wrap" 
+                       Margin="12,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Margin="16">
+            <Button Style="{ThemeResource TextBlockButtonStyle}" 
+                    Content="Cancel"
+                    FontSize="20"
+                    Padding="0"
+                    
+                    Name="cancelButton"
+                    Click="cancelButton_Click"/>
+            <Button Style="{ThemeResource TextBlockButtonStyle}" 
+                    Content="Install"
+                    FontWeight="SemiBold"
+                    FontSize="20"
+                    Padding="0"
+                    Name="installButton"
+                    Click="installButton_Click"
+                    Margin="16,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</Page>
