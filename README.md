@@ -5,7 +5,7 @@ You can download the installer here: https://github.com/colinkiama/UWP-Package-I
 
 Need help or have questions? Contact me at colinkiama@gmail.com
  
-![alt text](https://i.imgur.com/ZkL3YGz.gif)
+![alt text](https://i.imgur.com/gVagZJK.gif)
 
 
 The App installs the packages with or without their dependencies and displays errors in case something goes wrong.
