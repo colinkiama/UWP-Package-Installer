@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Ionic.Zlib;
+
 using System.IO.Compression;
 using Windows.UI.Core;
 using System.Threading.Tasks;
