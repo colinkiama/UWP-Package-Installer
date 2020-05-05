@@ -332,6 +332,8 @@ namespace UWPPackageInstaller
             picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.List;
             picker.FileTypeFilter.Add(".appx");
             picker.FileTypeFilter.Add(".appxbundle");
+            picker.FileTypeFilter.Add(".msix");
+            picker.FileTypeFilter.Add(".msixbundle");
 
             Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
             if (file != null)
@@ -358,6 +360,8 @@ namespace UWPPackageInstaller
             picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.List;
             picker.FileTypeFilter.Add(".appx");
             picker.FileTypeFilter.Add(".appxbundle");
+            picker.FileTypeFilter.Add(".msix");
+            picker.FileTypeFilter.Add(".msixbundle");
 
             var files = await picker.PickMultipleFilesAsync();
             if (files != null)
