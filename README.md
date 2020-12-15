@@ -5,7 +5,7 @@ You can download the installer here: https://github.com/colinkiama/UWP-Package-I
 
 Need help or have questions? Contact me at colinkiama@gmail.com
  
-<img src="/screenshot.gif?raw=true">
+![App Demonstration](screenshot.gif)
 
 
 The App installs the packages with or without their dependencies and displays errors in case something goes wrong.
@@ -20,7 +20,7 @@ Feel free to use this code for your own projects too. WARNING: The methods used 
 Enjoy😁!
 
 ## How to install an uncertified UWP App
-[GIF Tutorial](/uncertified-uwp-install.gif)
+![GIF Tutorial](uncertified-uwp-install.gif)
 
 ## Roadmap:
 - [ ] Install Certificates before packages
