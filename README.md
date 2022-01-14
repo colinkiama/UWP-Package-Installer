@@ -1,4 +1,7 @@
 # UWP-Package-Installer
+
+**Archived! - Please fork and continue development elsewhere**
+
 An UWP installer for appx/appxbundle packages
 
 You can download the installer here: https://github.com/colinkiama/UWP-Package-Installer/releases
